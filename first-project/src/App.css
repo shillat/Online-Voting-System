@@ -1,0 +1,36 @@
+.App {
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 50px;
+  background-color: #f0f8ff;
+  /* soft blue background */
+}
+
+h1 {
+  color: #1e90ff;
+  /* bright blue heading */
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.btn {
+  background-color: #ff6347;
+  /* tomato red */
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background-color: #ff4500;
+  /* darker red on hover */
+}
