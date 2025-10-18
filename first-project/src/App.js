@@ -1,22 +1,27 @@
+// src/App.js
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import MyComponent from './MyComponent';
+
+import Home from './pages/Home';
+import About from './pages/About';
+import Projects from './pages/Projects';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 function App() {
-  const handleClick = () => {
-    alert('You clicked the button!');
-  }
   return (
-    <div className="App">
-      <h1>Hey, Welcome to my React Playground!</h1>
-      <p>
-        Here, we learn React step by step and build cool stuff.
-      </p>
-      <button onClick={handleClick} className="btn">
-        Click Me for more info!
-      </button>
-
-      <MyComponent />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="*" element={<h1>404 - Page Not Found</h1>} />
+        </Routes>
+        <Footer /> {/* Footer always visible at bottom */}
+      </div>
+    </BrowserRouter>
   );
 }
 
