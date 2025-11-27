@@ -35,3 +35,14 @@ out/
 
 ### VS Code ###
 .vscode/
+# Ignore compiled backend files and build directories
+backend/target/
+
+# Ignore node dependencies for both frontend and backend
+**/node_modules
+
+# Ignore operating system files (Windows/macOS)
+.DS_Store
+
+# Ignore frontend build output
+frontend/voting-client/dist/
