@@ -154,126 +154,189 @@ const ManageCandidates = () => {
 
     // Show loading state only on initial load
     if ((loading || loadingRef.current) && candidates.length === 0 && elections.length === 0) {
-        return <div style={{ padding: '20px' }}>Loading candidates and elections...</div>;
+        return (
+            <div className="p-6">
+                <div className="flex justify-center items-center h-64">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-600"></div>
+                    <span className="ml-3 text-lg text-gray-700">Loading candidates and elections...</span>
+                </div>
+            </div>
+        );
     }
 
     return (
-        <div style={{ padding: '20px' }}>
-            <h2>Manage Candidates & Posts</h2>
-            <p>Review and approve candidate applications.</p>
+        <div className="p-6">
+            <div className="mb-8">
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">Manage Candidates</h1>
+                <p className="text-gray-600">Review and approve candidate applications for elections.</p>
+            </div>
 
             {error && (
-                <div style={{
-                    backgroundColor: '#f8d7da',
-                    color: '#721c24',
-                    padding: '10px',
-                    borderRadius: '4px',
-                    marginBottom: '20px'
-                }}>
-                    {error}
+                <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
+                    <div className="flex">
+                        <div className="flex-shrink-0">
+                            <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                            </svg>
+                        </div>
+                        <div className="ml-3">
+                            <p className="text-sm text-red-700">{error}</p>
+                        </div>
+                    </div>
                 </div>
             )}
 
-            <div style={{ marginBottom: '20px' }}>
-                <label style={{ marginRight: '10px' }}>Select Election:</label>
-                <select
-                    value={selectedElection}
-                    onChange={handleElectionChange}
-                    style={{
-                        padding: '8px',
-                        border: '1px solid #ddd',
-                        borderRadius: '4px'
-                    }}
-                    disabled={elections.length === 0}
-                >
-                    <option value="">-- Select Election --</option>
-                    {elections.map(election => (
-                        <option key={election.id} value={election.id}>
-                            {election.name}
-                        </option>
-                    ))}
-                </select>
+            <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <h2 className="text-lg font-medium text-gray-900">Filter Candidates</h2>
+                        <p className="text-sm text-gray-500">Select an election to view candidates</p>
+                    </div>
+                    <div className="flex items-center">
+                        <label htmlFor="election-select" className="mr-3 text-sm font-medium text-gray-700">Election:</label>
+                        <select
+                            id="election-select"
+                            value={selectedElection}
+                            onChange={handleElectionChange}
+                            className="block w-full md:w-auto pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm rounded-md"
+                            disabled={elections.length === 0}
+                        >
+                            <option value="">-- Select Election --</option>
+                            {elections.map(election => (
+                                <option key={election.id} value={election.id}>
+                                    {election.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
             </div>
 
             {/* Show loading indicator when switching elections */}
             {(loading || loadingRef.current) && candidates.length > 0 && (
-                <div style={{ textAlign: 'center', padding: '20px' }}>
-                    Loading candidates for selected election...
+                <div className="flex justify-center items-center py-12">
+                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-teal-600"></div>
+                    <span className="ml-3 text-gray-700">Loading candidates for selected election...</span>
                 </div>
             )}
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
-                {(!loading && !loadingRef.current) && candidates.length > 0 ? (
-                    candidates.map(candidate => (
-                        <div key={candidate.candidateId} style={{
-                            border: '1px solid #ddd',
-                            borderRadius: '8px',
-                            padding: '15px',
-                            backgroundColor: '#f9f9f9'
-                        }}>
-                            <h3 style={{ margin: '0 0 10px 0' }}>
-                                {candidate.voter?.firstName} {candidate.voter?.lastName}
-                            </h3>
-                            <p style={{ margin: '5px 0', color: '#666' }}>
-                                <strong>Post:</strong> {candidate.post}
-                            </p>
-                            <p style={{ margin: '5px 0', color: '#666' }}>
-                                <strong>Email:</strong> {candidate.voter?.email}
-                            </p>
-                            <p style={{ margin: '5px 0', color: '#666' }}>
-                                <strong>Bio:</strong> {candidate.bio || 'No bio provided'}
-                            </p>
-                            <p style={{ margin: '5px 0', color: '#666' }}>
-                                <strong>Status:</strong>{' '}
-                                <span style={{
-                                    padding: '5px 10px',
-                                    borderRadius: '12px',
-                                    backgroundColor: candidate.approved ? '#d4edda' : '#fff3cd',
-                                    color: candidate.approved ? '#155724' : '#856404'
-                                }}>
-                                    {candidate.approved ? 'Approved' : 'Pending'}
-                                </span>
-                            </p>
-                            <p style={{ margin: '5px 0', color: '#666' }}>
-                                <strong>Registered:</strong>{' '}
-                                {candidate.dateRegistered ? new Date(candidate.dateRegistered).toLocaleString() : 'N/A'}
-                            </p>
+            {!selectedElection ? (
+                <div className="bg-white rounded-xl shadow-md p-12 text-center">
+                    <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-gray-100">
+                        <svg className="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 className="mt-4 text-lg font-medium text-gray-900">Select an Election</h3>
+                    <p className="mt-2 text-gray-500">Please select an election from the dropdown above to view candidates.</p>
+                </div>
+            ) : (
+                <div>
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-xl font-bold text-gray-900">
+                            Candidates {selectedElection && `for ${elections.find(e => e.id == selectedElection)?.name}`}
+                        </h2>
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                            {candidates.length} {candidates.length === 1 ? 'Candidate' : 'Candidates'}
+                        </span>
+                    </div>
 
-                            <button
-                                onClick={() => handleApprovalChange(candidate.candidateId, candidate.approved)}
-                                style={{
-                                    marginTop: '10px',
-                                    padding: '8px 16px',
-                                    backgroundColor: candidate.approved ? '#dc3545' : '#28a745',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                {candidate.approved ? 'Disapprove' : 'Approve'}
-                            </button>
+                    {(!loading && !loadingRef.current) && candidates.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {candidates.map(candidate => (
+                                <div key={candidate.candidateId} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                                    <div className="p-6">
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <h3 className="text-lg font-bold text-gray-900">
+                                                    {candidate.voter?.firstName} {candidate.voter?.lastName}
+                                                </h3>
+                                                <p className="text-sm text-gray-500 mt-1">{candidate.voter?.email}</p>
+                                            </div>
+                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${candidate.approved
+                                                ? 'bg-green-100 text-green-800'
+                                                : 'bg-yellow-100 text-yellow-800'
+                                                }`}>
+                                                {candidate.approved ? 'Approved' : 'Pending'}
+                                            </span>
+                                        </div>
 
-                            <button
-                                onClick={() => handleDeleteCandidate(candidate.candidateId)}
-                                style={{
-                                    marginTop: '10px',
-                                    padding: '8px 16px',
-                                    backgroundColor: '#dc3545',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                Delete
-                            </button>
+                                        <div className="mt-4 space-y-3">
+                                            <div className="flex justify-center">
+                                                {candidate.imageUrl ? (
+                                                    <img
+                                                        src={`http://localhost:8080${candidate.imageUrl}`}
+                                                        alt={`${candidate.voter?.firstName} ${candidate.voter?.lastName}`}
+                                                        className="w-20 h-20 object-cover rounded-full border-2 border-white shadow"
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.parentElement.innerHTML = '<div class="w-20 h-20 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xl text-gray-500">👤</div>';
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 border-2 border-white flex items-center justify-center text-xl text-gray-500 shadow">
+                                                        👤
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            <div>
+                                                <p className="text-sm font-medium text-gray-500">Position</p>
+                                                <p className="text-gray-900">{candidate.post || 'N/A'}</p>
+                                            </div>
+
+                                            <div>
+                                                <p className="text-sm font-medium text-gray-500">Bio</p>
+                                                <p className="text-gray-900 text-sm">
+                                                    {candidate.bio || 'No bio provided'}
+                                                </p>
+                                            </div>
+
+                                            <div>
+                                                <p className="text-sm font-medium text-gray-500">Registered</p>
+                                                <p className="text-gray-900 text-sm">
+                                                    {candidate.dateRegistered ? new Date(candidate.dateRegistered).toLocaleDateString() : 'N/A'}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-6 flex space-x-3">
+                                            <button
+                                                onClick={() => handleApprovalChange(candidate.candidateId, candidate.approved)}
+                                                className={`flex-1 py-2 px-4 rounded-md text-sm font-medium ${candidate.approved
+                                                    ? 'bg-red-100 text-red-700 hover:bg-red-200'
+                                                    : 'bg-green-100 text-green-700 hover:bg-green-200'
+                                                    } transition-colors duration-200`}
+                                            >
+                                                {candidate.approved ? 'Disapprove' : 'Approve'}
+                                            </button>
+
+                                            <button
+                                                onClick={() => handleDeleteCandidate(candidate.candidateId)}
+                                                className="flex-1 py-2 px-4 bg-red-100 text-red-700 rounded-md text-sm font-medium hover:bg-red-200 transition-colors duration-200"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    ))
-                ) : (
-                    (!loading && !loadingRef.current) && <p>No candidates found for the selected election.</p>
-                )}
-            </div>
+                    ) : (
+                        (!loading && !loadingRef.current) && (
+                            <div className="bg-white rounded-xl shadow-sm p-12 text-center">
+                                <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-gray-100">
+                                    <svg className="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                </div>
+                                <h3 className="mt-4 text-lg font-medium text-gray-900">No candidates found</h3>
+                                <p className="mt-2 text-gray-500">No candidates have applied for the selected election yet.</p>
+                            </div>
+                        )
+                    )}
+                </div>
+            )}
         </div>
     );
 };

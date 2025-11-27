@@ -211,10 +211,27 @@ export const useApi = () => {
     }, []);
 
     // Create new candidate
-    const createCandidate = useCallback(async (candidateData) => {
+    const createCandidate = useCallback(async (candidateData, imageFile) => {
         try {
-            const response = await apiClient.post('/api/v1/candidates', candidateData);
-            return response.data;
+            if (imageFile) {
+                // If there's an image, we need to send form data
+                const formData = new FormData();
+                formData.append('candidate', new Blob([JSON.stringify(candidateData)], {
+                    type: 'application/json'
+                }));
+                formData.append('image', imageFile);
+
+                const response = await apiClient.post('/api/v1/candidates', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                return response.data;
+            } else {
+                // If no image, send regular JSON
+                const response = await apiClient.post('/api/v1/candidates', candidateData);
+                return response.data;
+            }
         } catch (error) {
             console.error('Error creating candidate:', error);
             throw error;

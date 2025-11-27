@@ -40,6 +40,10 @@ public class Candidates {
     @JsonProperty("dateRegistered")
     private LocalDateTime dateRegistered; // timestamp
 
+    // New field for storing image URL or path
+    @JsonProperty("imageUrl")
+    private String imageUrl; // For storing candidate image URL
+
     // -------------------
     // Getters and Setters
     // -------------------
@@ -97,5 +101,14 @@ public class Candidates {
 
     public void setDateRegistered(LocalDateTime dateRegistered) {
         this.dateRegistered = dateRegistered;
+    }
+
+    // Getter and setter for imageUrl
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

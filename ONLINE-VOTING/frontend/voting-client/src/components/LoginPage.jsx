@@ -134,124 +134,212 @@ const LoginPage = () => {
     if (role === 'voter') {
         // ... (Voter Login form remains the same) ...
         return (
-            <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-                <h2 className="text-2xl font-bold text-teal-800 mb-6 text-center">Voter Login</h2>
-                {error && <div className="alert alert-error">{error}</div>}
-
-                <form onSubmit={handleVoterLogin}>
-                    {/* ... (Voter Form Inputs: First Name, Last Name, Email, University ID) ... */}
-                    <div className="form-group">
-                        <label className="form-label">First Name:</label>
-                        <input
-                            type="text"
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                            required
-                            className="form-input"
-                        />
+            <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-50 flex items-center justify-center p-4">
+                <div className="max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div className="bg-gradient-to-r from-teal-700 to-teal-900 p-6 text-center">
+                        <h2 className="text-2xl font-bold text-white">Voter Login</h2>
+                        <p className="text-teal-100 mt-1">Access the Online Voting Platform</p>
                     </div>
 
-                    <div className="form-group">
-                        <label className="form-label">Last Name:</label>
-                        <input
-                            type="text"
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                            required
-                            className="form-input"
-                        />
+                    <div className="p-6">
+                        {error && (
+                            <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
+                                <div className="flex">
+                                    <div className="flex-shrink-0">
+                                        <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div className="ml-3">
+                                        <p className="text-sm text-red-700">{error}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        <form onSubmit={handleVoterLogin}>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                    <input
+                                        type="text"
+                                        value={firstName}
+                                        onChange={(e) => setFirstName(e.target.value)}
+                                        required
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+                                        placeholder="Enter your first name"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                    <input
+                                        type="text"
+                                        value={lastName}
+                                        onChange={(e) => setLastName(e.target.value)}
+                                        required
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+                                        placeholder="Enter your last name"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+                                        placeholder="your.email@university.edu"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">University ID</label>
+                                    <input
+                                        type="text"
+                                        value={universityId}
+                                        onChange={(e) => setUniversityId(e.target.value)}
+                                        required
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+                                        placeholder="Enter your university ID"
+                                    />
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className={`w-full mt-6 py-3 px-4 rounded-lg bg-gradient-to-r from-teal-600 to-teal-800 text-white font-medium hover:from-teal-700 hover:to-teal-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300 shadow-md ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                                {loading ? (
+                                    <div className="flex items-center justify-center">
+                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Logging in...
+                                    </div>
+                                ) : 'Login as Voter'}
+                            </button>
+                        </form>
+
+                        <div className="mt-8 pt-6 border-t border-gray-200">
+                            <div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
+                                <div className="flex">
+                                    <div className="flex-shrink-0">
+                                        <svg className="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div className="ml-3 flex-1">
+                                        <h3 className="text-sm font-medium text-blue-800">Not Registered?</h3>
+                                        <div className="mt-2 text-sm text-blue-700">
+                                            <p>Contact your administrator to get registered in the system.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-6 text-center">
+                                <button
+                                    onClick={() => switchRole('admin')}
+                                    className="text-teal-600 hover:text-teal-800 font-medium inline-flex items-center group"
+                                >
+                                    Login as Admin instead
+                                    <svg className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-
-                    <div className="form-group">
-                        <label className="form-label">Email:</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            className="form-input"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label">University ID:</label>
-                        <input
-                            type="text"
-                            value={universityId}
-                            onChange={(e) => setUniversityId(e.target.value)}
-                            required
-                            className="form-input"
-                        />
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className={`btn-primary w-full ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    >
-                        {loading ? 'Logging in...' : 'Login as Voter'}
-                    </button>
-                </form>
-
-                <div className="mt-6 text-center">
-                    <p>Not registered yet? Contact your administrator.</p>
-                    <p className="mt-4">
-                        <button
-                            onClick={() => switchRole('admin')}
-                            className="text-teal-600 hover:text-teal-800 underline bg-none border-none cursor-pointer"
-                        >
-                            Login as Admin instead
-                        </button>
-                    </p>
                 </div>
             </div>
         );
     } else {
         // ➡️ 3. UPDATED ADMIN LOGIN UI: Added input fields for credentials
         return (
-            <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-                <h2 className="text-2xl font-bold text-teal-800 mb-6 text-center">Admin Login</h2>
-                {error && <div className="alert alert-error">{error}</div>}
-
-                <form onSubmit={handleAdminLogin}>
-                    <div className="form-group">
-                        <label className="form-label">Username:</label>
-                        <input
-                            type="text"
-                            value={adminUsername}
-                            onChange={(e) => setAdminUsername(e.target.value)}
-                            required
-                            className="form-input"
-                        />
+            <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-50 flex items-center justify-center p-4">
+                <div className="max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div className="bg-gradient-to-r from-teal-700 to-teal-900 p-6 text-center">
+                        <h2 className="text-2xl font-bold text-white">Admin Login</h2>
+                        <p className="text-teal-100 mt-1">Access Administrative Dashboard</p>
                     </div>
 
-                    <div className="form-group">
-                        <label className="form-label">Password:</label>
-                        <input
-                            type="password"
-                            value={adminPassword}
-                            onChange={(e) => setAdminPassword(e.target.value)}
-                            required
-                            className="form-input"
-                        />
+                    <div className="p-6">
+                        {error && (
+                            <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
+                                <div className="flex">
+                                    <div className="flex-shrink-0">
+                                        <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div className="ml-3">
+                                        <p className="text-sm text-red-700">{error}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        <form onSubmit={handleAdminLogin}>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                                    <input
+                                        type="text"
+                                        value={adminUsername}
+                                        onChange={(e) => setAdminUsername(e.target.value)}
+                                        required
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+                                        placeholder="Enter your admin username"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                    <input
+                                        type="password"
+                                        value={adminPassword}
+                                        onChange={(e) => setAdminPassword(e.target.value)}
+                                        required
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition"
+                                        placeholder="Enter your password"
+                                    />
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className={`w-full mt-6 py-3 px-4 rounded-lg bg-gradient-to-r from-teal-600 to-teal-800 text-white font-medium hover:from-teal-700 hover:to-teal-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition duration-300 shadow-md ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                                {loading ? (
+                                    <div className="flex items-center justify-center">
+                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Logging in...
+                                    </div>
+                                ) : 'Login as Admin'}
+                            </button>
+                        </form>
+
+                        <div className="mt-8 pt-6 border-t border-gray-200 text-center">
+                            <button
+                                onClick={() => switchRole('voter')}
+                                className="text-teal-600 hover:text-teal-800 font-medium inline-flex items-center group"
+                            >
+                                <svg className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                                Login as Voter instead
+                            </button>
+                        </div>
                     </div>
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className={`btn-primary w-full ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                    >
-                        {loading ? 'Logging in...' : 'Login as Admin'}
-                    </button>
-                </form>
-
-                <div className="mt-6 text-center">
-                    <button
-                        onClick={() => switchRole('voter')}
-                        className="text-teal-600 hover:text-teal-800 underline bg-none border-none cursor-pointer"
-                    >
-                        Login as Voter instead
-                    </button>
                 </div>
             </div>
         );

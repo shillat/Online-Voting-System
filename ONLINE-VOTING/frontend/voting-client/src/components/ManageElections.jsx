@@ -121,192 +121,231 @@ const ManageElections = () => {
         return new Date(dateString).toLocaleString();
     };
 
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 'active': return 'bg-green-100 text-green-800';
+            case 'upcoming': return 'bg-yellow-100 text-yellow-800';
+            case 'completed': return 'bg-blue-100 text-blue-800';
+            default: return 'bg-gray-100 text-gray-800';
+        }
+    };
+
     if (loading) {
-        return <div style={{ padding: '20px' }}>Loading elections...</div>;
+        return (
+            <div className="p-6">
+                <div className="flex justify-center items-center h-64">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-600"></div>
+                    <span className="ml-3 text-lg text-gray-700">Loading elections...</span>
+                </div>
+            </div>
+        );
     }
 
     return (
-        <div style={{ padding: '20px' }}>
+        <div className="p-6">
+            <div className="mb-8">
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">Manage Elections</h1>
+                <p className="text-gray-600">Create and manage elections for the voting platform.</p>
+            </div>
 
-            <p>Dear Admin, Create and manage elections Here.</p>
-
-            <button
-                onClick={() => setShowForm(!showForm)}
-                style={{
-                    marginBottom: '20px',
-                    padding: '10px 20px',
-                    backgroundColor: '#007bff',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                }}
-            >
-                {showForm ? 'Cancel' : 'Create New Election'}
-            </button>
+            <div className="mb-8">
+                <button
+                    onClick={() => setShowForm(!showForm)}
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                >
+                    {showForm ? (
+                        <>
+                            <svg className="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            Cancel
+                        </>
+                    ) : (
+                        <>
+                            <svg className="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            Create New Election
+                        </>
+                    )}
+                </button>
+            </div>
 
             {showForm && (
-                <form onSubmit={handleSubmit} style={{
-                    marginBottom: '30px',
-                    padding: '20px',
-                    border: '1px solid #ddd',
-                    borderRadius: '8px',
-                    backgroundColor: '#f9f9f9'
-                }}>
-                    <h3>Create New Election</h3>
-                    <div style={{ marginBottom: '15px' }}>
-                        <label style={{ display: 'block', marginBottom: '5px' }}>Name:</label>
-                        <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                            style={{
-                                width: '100%',
-                                padding: '8px',
-                                border: '1px solid #ddd',
-                                borderRadius: '4px'
-                            }}
-                        />
-                    </div>
+                <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+                    <h2 className="text-xl font-bold text-gray-900 mb-6">Create New Election</h2>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div>
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Election Name</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                                className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
+                                placeholder="Annual General Election"
+                            />
+                        </div>
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label style={{ display: 'block', marginBottom: '5px' }}>Description:</label>
-                        <textarea
-                            name="description"
-                            value={formData.description}
-                            onChange={handleChange}
-                            style={{
-                                width: '100%',
-                                padding: '8px',
-                                border: '1px solid #ddd',
-                                borderRadius: '4px'
-                            }}
-                        />
-                    </div>
+                        <div>
+                            <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <textarea
+                                id="description"
+                                name="description"
+                                value={formData.description}
+                                onChange={handleChange}
+                                rows="3"
+                                className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
+                                placeholder="Describe the purpose and scope of this election"
+                            />
+                        </div>
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label style={{ display: 'block', marginBottom: '5px' }}>Start Time: *</label>
-                        <input
-                            type="datetime-local"
-                            name="start_time"
-                            value={formData.start_time}
-                            onChange={handleChange}
-                            required
-                            style={{
-                                width: '100%',
-                                padding: '8px',
-                                border: '1px solid #ddd',
-                                borderRadius: '4px'
-                            }}
-                        />
-                    </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label htmlFor="start_time" className="block text-sm font-medium text-gray-700 mb-1">Start Time *</label>
+                                <input
+                                    type="datetime-local"
+                                    id="start_time"
+                                    name="start_time"
+                                    value={formData.start_time}
+                                    onChange={handleChange}
+                                    required
+                                    className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
+                                />
+                            </div>
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label style={{ display: 'block', marginBottom: '5px' }}>End Time: *</label>
-                        <input
-                            type="datetime-local"
-                            name="end_time"
-                            value={formData.end_time}
-                            onChange={handleChange}
-                            required
-                            style={{
-                                width: '100%',
-                                padding: '8px',
-                                border: '1px solid #ddd',
-                                borderRadius: '4px'
-                            }}
-                        />
-                    </div>
+                            <div>
+                                <label htmlFor="end_time" className="block text-sm font-medium text-gray-700 mb-1">End Time *</label>
+                                <input
+                                    type="datetime-local"
+                                    id="end_time"
+                                    name="end_time"
+                                    value={formData.end_time}
+                                    onChange={handleChange}
+                                    required
+                                    className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
+                                />
+                            </div>
+                        </div>
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label style={{ display: 'block', marginBottom: '5px' }}>Status:</label>
-                        <select
-                            name="status"
-                            value={formData.status}
-                            onChange={handleChange}
-                            style={{
-                                width: '100%',
-                                padding: '8px',
-                                border: '1px solid #ddd',
-                                borderRadius: '4px'
-                            }}
-                        >
-                            <option value="upcoming">Upcoming</option>
-                            <option value="active">Active</option>
-                            <option value="completed">Completed</option>
-                        </select>
-                    </div>
-
-                    <button
-                        type="submit"
-                        style={{
-                            padding: '10px 20px',
-                            backgroundColor: '#28a745',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer'
-                        }}
-                    >
-                        Create Election
-                    </button>
-                </form>
-            )}
-
-            <h3>Existing Elections</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
-                {elections.length > 0 ? (
-                    elections.map(election => (
-                        <div key={election.id} style={{
-                            border: '1px solid #ddd',
-                            borderRadius: '8px',
-                            padding: '15px',
-                            backgroundColor: '#f9f9f9'
-                        }}>
-                            <h3 style={{ margin: '0 0 10px 0' }}>{election.name}</h3>
-                            <p style={{ margin: '5px 0', color: '#666' }}>
-                                <strong>Description:</strong> {election.description || 'No description'}
-                            </p>
-                            <p style={{ margin: '5px 0', color: '#666' }}>
-                                <strong>Start Time:</strong> {formatDate(election.start_time)}
-                            </p>
-                            <p style={{ margin: '5px 0', color: '#666' }}>
-                                <strong>End Time:</strong> {formatDate(election.end_time)}
-                            </p>
-                            <p style={{ margin: '5px 0', color: '#666' }}>
-                                <strong>Status:</strong>{' '}
-                                <select
-                                    value={election.status}
-                                    onChange={(e) => handleStatusChange(election.id, e.target.value)}
-                                    style={{ marginLeft: '10px', padding: '5px', borderRadius: '4px' }}
-                                >
-                                    <option value="upcoming">Upcoming</option>
-                                    <option value="active">Active</option>
-                                    <option value="completed">Completed</option>
-                                </select>
-                            </p>
-                            <button
-                                onClick={() => handleDeleteElection(election.id)}
-                                style={{
-                                    marginTop: '10px',
-                                    padding: '5px 10px',
-                                    backgroundColor: '#dc3545',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer'
-                                }}
+                        <div>
+                            <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                            <select
+                                id="status"
+                                name="status"
+                                value={formData.status}
+                                onChange={handleChange}
+                                className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500"
                             >
-                                Delete Election
+                                <option value="upcoming">Upcoming</option>
+                                <option value="active">Active</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+
+                        <div className="flex justify-end">
+                            <button
+                                type="submit"
+                                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                            >
+                                <svg className="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Create Election
                             </button>
                         </div>
-                    ))
-                ) : (
-                    <p>No elections found.</p>
-                )}
+                    </form>
+                </div>
+            )}
+
+            <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-gray-900">Existing Elections</h2>
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                    {elections.length} {elections.length === 1 ? 'Election' : 'Elections'}
+                </span>
             </div>
+
+            {elections.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {elections.map(election => (
+                        <div key={election.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                            <div className="p-6">
+                                <div className="flex justify-between items-start">
+                                    <h3 className="text-lg font-bold text-gray-900">{election.name}</h3>
+                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(election.status)}`}>
+                                        {election.status.charAt(0).toUpperCase() + election.status.slice(1)}
+                                    </span>
+                                </div>
+
+                                <p className="mt-3 text-sm text-gray-600">
+                                    {election.description || 'No description provided'}
+                                </p>
+
+                                <div className="mt-4 space-y-3">
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500">Start Time</p>
+                                        <p className="text-sm text-gray-900">{formatDate(election.start_time)}</p>
+                                    </div>
+
+                                    <div>
+                                        <p className="text-xs font-medium text-gray-500">End Time</p>
+                                        <p className="text-sm text-gray-900">{formatDate(election.end_time)}</p>
+                                    </div>
+                                </div>
+
+                                <div className="mt-6">
+                                    <label htmlFor={`status-${election.id}`} className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                                    <select
+                                        id={`status-${election.id}`}
+                                        value={election.status}
+                                        onChange={(e) => handleStatusChange(election.id, e.target.value)}
+                                        className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                                    >
+                                        <option value="upcoming">Upcoming</option>
+                                        <option value="active">Active</option>
+                                        <option value="completed">Completed</option>
+                                    </select>
+                                </div>
+
+                                <div className="mt-4">
+                                    <button
+                                        onClick={() => handleDeleteElection(election.id)}
+                                        className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                    >
+                                        <svg className="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1-1v3M4 7h16"></path>
+                                        </svg>
+                                        Delete Election
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className="bg-white rounded-xl shadow-sm p-12 text-center">
+                    <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-gray-100">
+                        <svg className="h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                    </div>
+                    <h3 className="mt-4 text-lg font-medium text-gray-900">No elections found</h3>
+                    <p className="mt-2 text-gray-500">Get started by creating a new election.</p>
+                    <div className="mt-6">
+                        <button
+                            onClick={() => setShowForm(true)}
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                        >
+                            <svg className="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            Create Election
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
