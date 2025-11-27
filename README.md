@@ -5,7 +5,6 @@
 This project is a full-stack, secure, and modern online voting platform designed to facilitate paperless, transparent, and accessible election processes. It includes a robust **Spring Boot (Java)** backend for API and data management, and a dynamic **React (JavaScript)** frontend for the user interface.
 
 ## ⚙️ Technology Stack
-
 | Component | Technology | Description |
 | :--- | :--- | :--- |
 | **Frontend** | **React** (with Hooks/Router) | Provides a responsive and interactive user experience for voters and administrators. |
@@ -13,12 +12,8 @@ This project is a full-stack, secure, and modern online voting platform designed
 | **Database** | *(Assumed)* **MySQL/PostgreSQL/H2** | For persistent storage of voter, candidate, and election data. |
 | **Styling** | **CSS/Tailwind/Bootstrap** *(Based on project files)* | For application styling and layout. |
 
------
-
 ## 🚀 Getting Started
-
 Follow these steps to set up the project locally for development and testing.
-
 ### Prerequisites
 
   * **Java Development Kit (JDK) 17+**
@@ -27,9 +22,6 @@ Follow these steps to set up the project locally for development and testing.
   * A suitable **IDE** (e.g., IntelliJ IDEA, VS Code, Eclipse)
 
 ### 1\. Clone the Repository
-
-Since the repository has moved to the organization's account (`bos-com`), ensure you clone using the correct URL:
-
 ```bash
 git clone git@github.com:bos-com/Online-Voting-System.git
 cd Online-Voting-System
