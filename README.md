@@ -1,10 +1,10 @@
 # 🗳️ Online Voting System
 
-## 🌟 Project Overview
+##  Project Overview
 
 This project is a full-stack, secure, and modern online voting platform designed by Ms. Naigaga Shillah, a Software Engineering Student, to facilitate paperless, transparent, and accessible election processes. It includes a robust **Spring Boot (Java)** backend for API and data management, and a dynamic **React (JavaScript)** frontend for the user interface.
 
-## ⚙️ Technology Stack
+##  Technology Stack
 | Component | Technology | Description |
 | :--- | :--- | :--- |
 | **Frontend** | **React** (with Hooks/Router) | Provides a responsive and interactive user experience for voters and administrators. |
